@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - JobPortalApplication</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/JobPortalApplication.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">JobPortalApplication</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav me-auto"></ul>
+
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Job" asp-action="Index">Jobs</a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Employer"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="PostedJobs" asp-action="Index">PostedJobs</a>
+                            </li>
+                        }
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <form asp-area="" asp-controller="Account" asp-action="Logout">
+                                    <button class="btn btn-outline-danger">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span>
+                &copy; 2025 - JobPortalApplication -
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">Support</a>
+            </span>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            <div class="social-links">
+                <a href="https://www.facebook.com/yourprofile" target="_blank" title="Facebook" style="margin-right: 10px;">
+                    <i class="fab fa-facebook-f" style="font-size: 30px;"></i>
+                </a>
+                <a href="https://twitter.com/yourprofile" target="_blank" title="Twitter" style="margin-right: 10px;">
+                    <i class="fab fa-twitter" style="font-size: 30px;"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/yourprofile" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin" style="font-size: 30px;"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/search.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

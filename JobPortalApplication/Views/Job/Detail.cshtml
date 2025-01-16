@@ -1,0 +1,89 @@
+﻿@model JobPortalApplication.Models.Job
+
+@{
+    ViewData["Title"] = "Job Details";
+}
+
+
+<div class="container mt-5">
+
+    <h1 class="my-4">
+        Job Details - <small>@Model.Position</small>
+    </h1>
+
+    <div class="row">
+        <div class="col-md-8">
+            <img class="img-fluid" src="@Model.Image" alt="Job Image" style="width: 80%; height: 90%;" />
+        </div>
+
+        <div class="col-md-4">
+            <h3 class="my-3">Job Type</h3>
+            <p>@Model.JobTypeCategory</p>
+
+            <h3 class="my-3">Description</h3>
+            <p>@Model.Description</p>
+
+            <h3 class="my-3">Salary</h3>
+            <p>@Model.Salary</p>
+
+            <h3 class="my-3">Company</h3>
+            <p>@Model.CompanyName</p>
+
+            <h3 class="my-3">Location</h3>
+            <ul>
+                <li>Street: @Model.Address.Street</li>
+                <li>City: @Model.Address.City</li>
+            </ul>
+        </div>
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+  
+        @if (TempData["ApplicationSuccess"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["ApplicationSuccess"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (TempData["ApplicationError"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ApplicationError"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2>Apply for this Job</h2>
+                <form asp-action="Apply" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="jobId" value="@Model.Id" />
+                    <div class="form-group">
+                        <label for="applicantName">Your Name</label>
+                        <input type="text" name="applicantName" id="applicantName" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="applicantEmail">Your Email</label>
+                        <input type="email" name="applicantEmail" id="applicantEmail" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="cv">Upload Your CV</label>
+                        <input type="file" name="cv" id="cv" class="form-control" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Apply</button>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning mt-5 text-center" style="background-color: white; border: none; color: black;">
+            <p>You need to <a asp-controller="Account" asp-action="Login" style="color: black;">log in</a> to apply for this job.</p>
+            <p>If you don't have an account, please <a asp-controller="Account" asp-action="Register" style="color: black;">register here</a>.</p>
+        </div>
+    }
+
+</div>

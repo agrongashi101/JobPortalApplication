@@ -1,0 +1,23 @@
+﻿@model List<JobPortalApplication.ViewModels.ApplicationViewModel>
+
+<h2>Applications for Job ID: @ViewBag.JobId</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Applicant Name</th>
+            <th>Applicant Email</th>
+            <th>CV</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var app in Model)
+        {
+            <tr>
+                <td>@app.ApplicantName</td>
+                <td>@app.ApplicantEmail</td>
+                <td><a href="@app.CVPath" target="_blank">Download CV</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

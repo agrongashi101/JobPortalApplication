@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Job>
+
+@{
+    ViewData["Title"] = "Job List";
+}
+
+<div class="container mt-5">
+
+    <div class="mb-3">
+        <label for="searchInput" class="form-label">Search Jobs by Position</label>
+        <input type="text" id="searchInput" class="form-control" placeholder="Search Jobs" />
+        <button id="searchBtn" class="btn btn-primary mt-2">Search</button>
+    </div>
+
+    <div id="jobsList" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img class="card-img-top" src="@item.Image" alt="Card image cap" width="100%" height="225px">
+                    <div class="card-body">
+                        <p class="card-text">@item.Position</p>
+                        <p class="card-text">
+                            @(item.Description.Length > 100
+                                ? item.Description.Substring(0, 100) + "..."
+                                : item.Description)
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a type="btn btn-success" asp-controller="Job" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">View</a>
+                                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+                                {
+                                    <a type="btn btn-success" asp-controller="Job" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                    <a type="btn btn-success" asp-controller="Job" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Delete</a>
+                                    <a href="@Url.Action("ViewApplications", "Job", new { jobId = item.Id })" class="btn btn-success">
+                                        View Applications
+                                    </a>
+                                }
+                            </div>
+                            <small class="text-body-secondary">@item.PostedTime.ToString("dd-MMM-yy")</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
